@@ -1,0 +1,123 @@
+/*
+Spark Core MCP9808 Temperature Sensor Library
+By: Romain MP
+Licence: GPL v3
+*/
+#define PLATFORM_ID 10
+#include "application.h"
+
+
+SYSTEM_MODE(SEMI_AUTOMATIC);
+SYSTEM_THREAD(ENABLED);
+
+/*
+// -----------------------------------------
+// Function and Variable with Photoresistors
+// -----------------------------------------
+// In this example, we're going to register a Particle.variable() with the cloud so that we can read brightness levels from the photoresistor.
+// We'll also register a Particle.function so that we can turn the LED on and off remotely.
+
+// We're going to start by declaring which pins everything is plugged into.
+
+
+int photoresistor = A0; // This is where your photoresistor is plugged in. The other side goes to the "power" pin (below).
+
+int power = A5; // This is the other end of your photoresistor. The other side is plugged into the "photoresistor" pin (above).
+// The reason we have plugged one side into an analog pin instead of to "power" is because we want a very steady voltage to be sent to the photoresistor.
+// That way, when we read the value from the other side of the photoresistor, we can accurately calculate a voltage drop.
+
+int analogvalue; // Here we are declaring the integer variable analogvalue, which we will use later to store the value of the photoresistor.
+
+
+// Next we go into the setup function.
+
+void setup() {
+Serial.begin(9600);
+    // First, declare all of our pins. This lets our device know which ones will be used for outputting voltage, and which ones will read incoming voltage.
+    pinMode(photoresistor,INPUT);  // Our photoresistor pin is input (reading the photoresistor)
+    pinMode(power,OUTPUT); // The pin powering the photoresistor is output (sending out consistent power)
+
+    // Next, write one pin of the photoresistor to be the maximum possible, so that we can use this for power.
+    digitalWrite(power,HIGH);
+
+delay(5000);
+    
+	Serial.println("PhotoDiode test");
+}
+
+
+// Next is the loop function...
+
+void loop() {
+
+    // check to see what the value of the photoresistor is and store it in the int variable analogvalue
+    analogvalue = analogRead(photoresistor);
+    Serial.print("Reading:"); Serial.println(analogvalue);
+	delay(250);
+    
+
+
+}
+
+
+
+*/
+#include "MCP9808.h"
+
+MCP9808 mcp = MCP9808();
+
+void setup()
+{
+	Serial.begin(9600);
+	
+	pinMode(C0, OUTPUT);
+  	digitalWrite(C0, LOW);
+
+	pinMode(C1, OUTPUT);
+  	digitalWrite(C1, LOW);
+
+	pinMode(C2, OUTPUT);
+  	digitalWrite(C2, LOW);
+
+	pinMode(C3, INPUT);  //ALERT PIN
+  	
+	pinMode(C4, OUTPUT);
+  	digitalWrite(C4, LOW);
+
+	pinMode(C5, OUTPUT);
+  	digitalWrite(C5, LOW);
+
+	pinMode(D0, OUTPUT);  //GND
+  	digitalWrite(D0, LOW);
+
+	pinMode(D1, OUTPUT); //VCC
+  	digitalWrite(D1, LOW);
+
+  	delay(100);
+
+	pinMode(D1, OUTPUT); //TURN IT ON
+  	digitalWrite(D1, HIGH);
+
+	
+    delay(5000);
+    
+	Serial.println("MCP9808 test");
+
+	// Wait for the sensor to come up
+	while(! mcp.begin()){
+	    Serial.println("MCP9808 not found");
+	    delay(500);
+	}
+
+	// Set resolution to the maximum (slowest conversion)
+	mcp.setResolution(MCP9808_SLOWEST);
+
+	Serial.println("MCP9808 OK");
+}
+
+void loop()
+{
+	Serial.print("Temp:"); Serial.println(mcp.getTemperature(), 4);
+	delay(250);
+}
+
