@@ -61,7 +61,6 @@ int Cell_Peripheral::GetTimeToNextsend_s()
 
 bool Cell_Peripheral::doSetup()
 {
-  m_CellImplementation.ConnectionEventSetup();
   m_Parameters.push_back(Parameter("cellsendperiodseconds", 60*5)); //5mins
   m_Parameters.push_back(Parameter("cellconnecttimeoutseconds", 60*3)); //3mins
   m_Parameters.push_back(Parameter("cellactivezeroifdisable", 1)); // 1 is ON
@@ -122,7 +121,6 @@ bool Cell_Peripheral::ConnectCell()
 
     if (Cellular.ready())
     {
-        m_CellImplementation.PublishEvents();
         Particle.process();
         if (Time.isValid() == false)
         {

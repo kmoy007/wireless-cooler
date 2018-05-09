@@ -15,8 +15,6 @@ enum ConnectionEventCode {
 	CONNECTION_EVENT_TESTERFN_APP_WATCHDOG,	// 11
 	CONNECTION_EVENT_SLEEP					// 12
 };
-extern void ConnectionEventAdd(int eventCode, int data /* = 0 */);
-
 
 class Cell_Implementation
 {
@@ -26,12 +24,8 @@ public:
 	// exceeding the publish rate limit.
 	
 
-	// This should be called during setup()
-	void ConnectionEventSetup(); 
-
 	// This should be called from loop()
 	// If there are queued events and there is a cloud connection they're published, oldest first.
-	void PublishEvents();
 	void DebugCellConnection_RebootIfYouThinkItsAGoodIdea();
 
 
