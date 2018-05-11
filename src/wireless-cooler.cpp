@@ -36,8 +36,8 @@
 
 //#include "SerialUI.h"
 #define TOKEN "BBFF-ZRKJR6drk5PdBiad4PLgGt88HVjVnr"  // Add here your Ubidots TOKEN
-#define DEVICE_NAME "U270 MODULE"
-#define DEVICE_LABEL "U270module"
+#define DEVICE_NAME "G350 MODULE"
+#define DEVICE_LABEL "G350module"
 
 bool ISRELAY = false;
 

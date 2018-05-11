@@ -56,7 +56,7 @@ public:
 
   bool peek(const unsigned int& index, T& returnStruct)
   {
-    if ((index >= capacity()) || (head == tail))
+    if ((index >= capacity()))
     {
        return false;
     }
