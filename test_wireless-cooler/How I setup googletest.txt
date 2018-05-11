@@ -1,0 +1,20 @@
+How I setup googletest
+
+Download it
+Get CMake
+run "./CMake ." in the googletest/googletest directory
+then call ./make
+
+create usr/local/gtest folder
+
+copy into this libgtest.a
+copy googletest/googletest/include to usr/local/gtest/include
+
+sudo ln -snf /usr/local/gtest/libgtest.a /usr/local/lib/libgtest.a
+
+ln -snf /usr/local/gtest/include/gtest /usr/local/include/gtest
+
+then add to the CMakeLists.txt:
+
+include_directories(/usr/local/include)
+target_link_libraries(test_inet /usr/local/lib/libgtest.a)
