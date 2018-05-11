@@ -18,6 +18,18 @@ bool Electron_Peripheral::doSetup()
   	m_Parameters.push_back(Parameter("deepsleeptimeseconds", 60*5)); //5mins
   	m_Parameters.push_back(Parameter("lightsleeptimeseconds", 5)); //5seconds
   	m_Parameters.push_back(Parameter("lowpowermode", 1)); //5seconds
+    m_Functions.insert(std::make_pair("setunixtime",[this](std::string theTime) 
+    { 
+      const char* startptr(theTime.c_str());
+      char* endptr;
+      int unixTime = strtol (startptr, &endptr, 10 );
+      if (*endptr != '\0')
+      {
+          this->m_Console->logMessage(String::format("FAILED to convert string [%s] to integer. Integer is [%d].", startptr, unixTime));
+          return;
+      }
+      Time.setTime(unixTime); 
+    }));
 
   return true;
 }

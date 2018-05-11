@@ -19,6 +19,7 @@
 #include "PwrMgmt_Peripheral.h"
 #include "MCP9808_Peripheral.h"
 #include "RFM69_Peripheral.h"
+#include "ShortTermMemory_Peripheral.h"
 #include <math.h>
 
 #include <memory>
@@ -46,6 +47,7 @@ SYSTEM_THREAD(ENABLED);
 
 
 retained int watchdogCounter = 0;
+retained int wakeupCounter = 0;
 
 void watchdogTimeoutFunction()
 {
@@ -61,7 +63,7 @@ ApplicationWatchdog wd(600000, watchdogTimeoutFunction);
 
 
 
-int counter;
+
 
 
 
@@ -71,6 +73,7 @@ std::shared_ptr<Electron_Peripheral> electron;
 std::shared_ptr<Persistence> persistence;
 std::shared_ptr<Ubidots_Peripheral> ubidots;
 std::shared_ptr<RFM69_Peripheral> rfm69;
+std::shared_ptr<ShortTermMemory_Peripheral> shortTermMemory;
 
 std::vector<std::shared_ptr<IPeripheralDevice>> _theDevices;
 
@@ -96,7 +99,6 @@ void setup() {
 
 
     _sandb = std::make_shared<SerialAndBluetooth>();
-    counter = 0;
     Serial.begin(115200);
 
 
@@ -147,7 +149,9 @@ void setup() {
     persistence = std::make_shared<Persistence> (_sandb);
     _theDevices.push_back(persistence);
 
-
+    _sandb->logMessage(F("Creating ShortTermMemory module"));
+    shortTermMemory = std::make_shared<ShortTermMemory_Peripheral> (_sandb);
+    _theDevices.push_back(shortTermMemory);
     
     
     
@@ -165,11 +169,10 @@ void setup() {
 
 void loop()
 {
+    wakeupCounter++;
     wd.checkin();
-    String outputString("");
 
-    counter = counter + 1;
-    _sandb->logMessage(String::format("Wake up #%d, Time %s, watchdogCounter %d", counter, Time.timeStr().c_str(), watchdogCounter));
+    _sandb->logMessage(String::format("Wake up #%d, Time %s, watchdogCounter %d", wakeupCounter, Time.timeStr().c_str(), watchdogCounter));
    // _sandb->logMessage(Time.timeStr());
     
 
@@ -213,10 +216,22 @@ void loop()
         std::vector<SensorValue> theSensorValues = (*itr)->m_SensorValues;
         for (std::vector<SensorValue>::iterator itr2 = theSensorValues.begin(); itr2 != theSensorValues.end(); ++itr2)
         {
-            outputString = String::format("%s:  %s = %.2f", (*itr)->GetName().c_str(), itr2->GetName().c_str(), /*boost::get<double>*/(itr2->GetCurrentValue()));
-            _sandb->logMessage(outputString);
+            _sandb->logMessage(String::format("%s:  %s = %.2f", (*itr)->GetName().c_str(), itr2->GetName().c_str(), /*boost::get<double>*/(itr2->GetCurrentValue())));
+            
         }
    }
+
+    
+    //start push readings to STMemory
+    for (std::vector<std::shared_ptr<IPeripheralDevice>>::iterator itr = _theDevices.begin(); itr != _theDevices.end(); ++itr)
+    {
+        std::vector<SensorValue> theSensorValues = (*itr)->m_SensorValues;
+        for (std::vector<SensorValue>::iterator itr2 = theSensorValues.begin(); itr2 != theSensorValues.end(); ++itr2)
+        {
+            shortTermMemory->AddSensorValue(*itr2);
+        }
+    }
+    //end push readings to STMemory
 
     if (!ISRELAY)//SEND OVER RADIO - TEMPORARY
     {
@@ -226,8 +241,8 @@ void loop()
             std::vector<SensorValue> theSensorValues = (*itr)->m_SensorValues;
             for (std::vector<SensorValue>::iterator itr2 = theSensorValues.begin(); itr2 != theSensorValues.end(); ++itr2)
             {
-                outputString = String::format("%s:  %s = %.2f", (*itr)->GetName().c_str(), itr2->GetName().c_str(), /*boost::get<double>*/(itr2->GetCurrentValue()));
-                rfm69->SendSomething(std::string(outputString.c_str()));
+                std::string outputString = String::format("%s:  %s = %.2f", (*itr)->GetName().c_str(), itr2->GetName().c_str(), /*boost::get<double>*/(itr2->GetCurrentValue())).c_str();
+                rfm69->SendSomething(outputString.c_str());
             }
        }
        rfm69->SendSomething("------END------");
@@ -292,8 +307,7 @@ void loop()
     if (cell->IsCellEnabled())
     {
         long timeToNextSend = cell->GetTimeToNextsend_s();
-        outputString = String::format("Next cell transmission in %d s", timeToNextSend);
-        _sandb->logMessage(outputString);
+        _sandb->logMessage(String::format("Next cell transmission in %d s", timeToNextSend));
     }
     else
     {
@@ -311,8 +325,7 @@ void loop()
             double timeToSleepDouble = /*boost::get<double>*/(ParameterHelpers::GetValueByName<Parameter>("deepsleeptimeseconds", electron->m_Parameters, _sandb));
             
             int timeToSleepInSeconds = static_cast<int>(timeToSleepDouble);
-            outputString = String::format("Going into deep sleep for %ds", timeToSleepInSeconds);
-            _sandb->logMessage(outputString);
+            _sandb->logMessage(String::format("Going into deep sleep for %ds", timeToSleepInSeconds));
             _sandb->logMessage("---------------------");
             System.sleep(SLEEP_MODE_DEEP, timeToSleepInSeconds);
             //System.sleep(timeToSleepInSeconds);
@@ -323,8 +336,7 @@ void loop()
             double timeToSleepDouble = /*boost::get<double>*/(ParameterHelpers::GetValueByName<Parameter>("lightsleeptimeseconds", electron->m_Parameters, _sandb));
             int timeToSleepInSeconds = static_cast<int>(timeToSleepDouble);
            // int timeToSleepInSeconds = 5;
-            outputString = String::format("Going into light sleep for %ds", timeToSleepInSeconds);
-            _sandb->logMessage(outputString);
+            _sandb->logMessage(String::format("Going into light sleep for %ds", timeToSleepInSeconds));
             _sandb->logMessage("---------------------");
             System.sleep(ParticleWiring::pin_D1,FALLING,timeToSleepInSeconds);
         }
