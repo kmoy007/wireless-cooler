@@ -1,13 +1,14 @@
 #include "IPeripheralDevice.h"
 
 #include <algorithm>
-#include <boost/throw_exception.hpp>
+//#include <boost/throw_exception.hpp>
 
+/*
 void boost::throw_exception(std::exception const & e)
 {
-	Serial.write("EXCEPTION!");
+	
 }
-
+*/
 IPeripheralDevice::IPeripheralDevice(std::shared_ptr<IConsoleOutput> console) :
    m_Console(console),
    m_SetupDone(false)

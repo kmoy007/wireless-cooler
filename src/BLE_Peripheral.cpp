@@ -5,7 +5,11 @@
 #include "BluefruitConfig.h"
 #include "ScopedBLEModeSetter.h"
 
+#include "BLE_NVM_Data.h" //just for the function menu to call this manually
+
+
 #define MINIMUM_FIRMWARE_VERSION   "0.7.1"
+
 
 bool BLE_Peripheral::ConfigureWakeUpIRQ()
 {
@@ -163,6 +167,8 @@ bool BLE_Peripheral::doSetup()
   m_ble.setMode(BLUEFRUIT_MODE_DATA);
 
   m_Functions.insert(std::make_pair("atcommand",[this](std::string thecommand) {this->ATCommand_PrintResult(thecommand); }));
+  m_Functions.insert(std::make_pair("printNVM",[this](std::string thecommand) {BLE_NVM_Data nvmHandler(m_sandb);
+  nvmHandler.PrintNVM(shared_from_this()); thecommand; }));
   return true;
 }
 
@@ -170,6 +176,7 @@ bool BLE_Peripheral::doMainLoop()
 {
   return true;
 }
+
 
 bool BLE_Peripheral::GetOutputFromBLEDevice(std::vector<std::string>& result)
 {
@@ -193,38 +200,88 @@ bool BLE_Peripheral::GetOutputFromBLEDevice(std::vector<std::string>& result)
   return false;
 }
 
+/*
 void BLE_Peripheral::PrintStrings(const std::vector<std::string>& returnStrings)
 {
   for (auto itr = returnStrings.begin(); itr!= returnStrings.end(); ++itr)
   {
     m_sandb->logMessage(String::format("BLE output: %s",itr->c_str()));
   }
-}
+}*/
 
 bool BLE_Peripheral::ATCommand_PrintResult(const std::string& command)
 {
   std::vector<std::string> returnStrings;
   bool result = ATCommand_GetResult(command, returnStrings);
-  PrintStrings(returnStrings);
+  for (auto itr = returnStrings.begin(); itr!= returnStrings.end(); ++itr)
+  {
+    m_sandb->logMessage(String::format("BLE output: %s",itr->c_str()));
+  }
+ // PrintStrings(returnStrings);
 
   return result;
 }
 
+
 bool BLE_Peripheral::ATCommand_GetResult(const std::string& command, std::vector<std::string>& returnStrings)
 {
+  //const int preamble = 33;
+  const int maxStringLength = 255;
+  
+
+
   ScopedBLEModeSetter modeSetter(&m_ble, BLUEFRUIT_MODE_COMMAND);
 
-  m_sandb->logMessage(String::format("BLE Sending AT command: %s",command.c_str()));
-  m_ble.println(command.c_str());
+  if (command.size() >= maxStringLength)
+  {
+    m_sandb->logMessage(String::format("WARNING: AT command too long, %d bytes, shrinking to %d",command.size(),maxStringLength));
+  }
+
+  std::string safeCommand = command.substr(0,maxStringLength);
+
+
+  m_sandb->logMessage(String::format("BLE Sending AT command: %s",safeCommand.c_str()));
+  m_ble.println(safeCommand.c_str());
   bool result = GetOutputFromBLEDevice(returnStrings);
   return result;
 }
 
 void BLE_Peripheral::UART_OutputString(const std::string& outputString)
 {
+  const int maxStringLength = 255;
   ScopedBLEModeSetter modeSetter(&m_ble, BLUEFRUIT_MODE_DATA);
-  m_ble.println(outputString.c_str());
+  /*while(GetTXFifoBytes() < 1024)
+  {
+    delay(100);
+  }
+  */
+  std::string remainingStringToSend = outputString;
+  while (remainingStringToSend.length() > 0)
+  {
+      std::string sendThis = remainingStringToSend.substr(0,maxStringLength);
+      remainingStringToSend.erase(0,sendThis.length());
+      m_ble.println(sendThis.c_str());
+  }
+}
 
+int BLE_Peripheral::GetTXFifoBytes()
+{
+  int32_t result = -1;
+  if (!m_ble.atcommandIntReply("AT+BLEUARTFIFO=TX", &result))
+  {
+    return -1;
+  }
+  return (int)result;
+}
+
+int BLE_Peripheral::GetRXFifoBytes()
+{
+  int32_t result = -1;
+  if (!m_ble.atcommandIntReply("AT+BLEUARTFIFO=RX", &result))
+  {
+    return -1;
+  }
+  return (int)result;
 }
 
 void BLE_Peripheral::PrintInfo()
@@ -237,3 +294,5 @@ void BLE_Peripheral::PrintInfo()
 
 //  m_ble._verbose = v;
 }
+
+

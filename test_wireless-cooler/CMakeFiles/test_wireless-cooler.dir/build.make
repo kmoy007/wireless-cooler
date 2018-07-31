@@ -70,9 +70,48 @@ CMakeFiles/test_wireless-cooler.dir/ShortTermMemoryTest.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_wireless-cooler.dir/ShortTermMemoryTest.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/ShortTermMemoryTest.cpp -o CMakeFiles/test_wireless-cooler.dir/ShortTermMemoryTest.cpp.s
 
+CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o: CMakeFiles/test_wireless-cooler.dir/flags.make
+CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o: msmtest.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o -c /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/msmtest.cpp
+
+CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/msmtest.cpp > CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.i
+
+CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/msmtest.cpp -o CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.s
+
+CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o: CMakeFiles/test_wireless-cooler.dir/flags.make
+CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o: serializedemo_simple_test.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o -c /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/serializedemo_simple_test.cpp
+
+CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/serializedemo_simple_test.cpp > CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.i
+
+CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/serializedemo_simple_test.cpp -o CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.s
+
+CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o: CMakeFiles/test_wireless-cooler.dir/flags.make
+CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o: serializedemotest.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o -c /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/serializedemotest.cpp
+
+CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/serializedemotest.cpp > CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.i
+
+CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/serializedemotest.cpp -o CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.s
+
 CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o: CMakeFiles/test_wireless-cooler.dir/flags.make
 CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o: test_wireless-cooler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o -c /Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/test_wireless-cooler.cpp
 
 CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.i: cmake_force
@@ -86,17 +125,24 @@ CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.s: cmake_force
 # Object files for target test_wireless-cooler
 test_wireless__cooler_OBJECTS = \
 "CMakeFiles/test_wireless-cooler.dir/ShortTermMemoryTest.cpp.o" \
+"CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o" \
+"CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o" \
+"CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o" \
 "CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o"
 
 # External object files for target test_wireless-cooler
 test_wireless__cooler_EXTERNAL_OBJECTS =
 
 test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/ShortTermMemoryTest.cpp.o
+test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o
+test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o
+test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o
 test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/test_wireless-cooler.cpp.o
 test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/build.make
 test_wireless-cooler: /usr/local/lib/libgtest.a
+test_wireless-cooler: /usr/local/lib/libboost_serialization.dylib
 test_wireless-cooler: CMakeFiles/test_wireless-cooler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable test_wireless-cooler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable test_wireless-cooler"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_wireless-cooler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

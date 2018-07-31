@@ -24,7 +24,7 @@ void Cell_Peripheral::EndCellSession()
     Particle.disconnect();
     Particle.process();
     delay(500);
-
+/*
     m_Console->logMessage(String::format("Ending Cell Session 2 of 4 - Particle: %s, Cellular connecting: %s, Cellular ready: %s", 
       Particle.connected() ? "Connected" : "NOT CONNECTED",
       Cellular.connecting() ? "Connected" : "NOT CONNECTED",
@@ -50,7 +50,13 @@ void Cell_Peripheral::EndCellSession()
       Cellular.connecting() ? "Connected" : "NOT CONNECTED",
       Cellular.ready() ? "Yes" : "NO"
     ));
-    m_LastCellSendSeconds=Time.now();
+    */
+    SetLastCellActionTime();
+}
+
+void Cell_Peripheral::SetLastCellActionTime()
+{
+  m_LastCellSendSeconds=Time.now();
 }
 
 int Cell_Peripheral::GetTimeToNextsend_s()
@@ -108,6 +114,7 @@ bool Cell_Peripheral::ConnectCell()
       //TIMEOUT!
        m_Console->logMessage(String::format("CELL: Timed Out! Waited %u ms", (millis() - connectStart)));
        failedConnects++;
+       SetLastCellActionTime();
 
        //m_CellImplementation.DebugCellConnection_RebootIfYouThinkItsAGoodIdea();
     }
@@ -152,6 +159,7 @@ bool Cell_Peripheral::ConnectCell()
     {
         failedConnects++;
         m_Console->logMessage("Cellular connection NOT READY");
+
     }
 
    // EndCellSession();
@@ -177,12 +185,12 @@ bool Cell_Peripheral::IsCellEnabled()
 
 bool Cell_Peripheral::TimeToSendCell()
 {
-  if (!Time.isValid())
+  /*if (!Time.isValid())
   {
       m_Console->logMessage("CELL:  First call, Time not synchronized - need to connect!");
       return true; //first send
   }
-  
+  */
   if (m_LastCellSendSeconds == 0)
   {
     m_Console->logMessage("CELL:  First call, m_LastCellSendSeconds = 0, time to send");

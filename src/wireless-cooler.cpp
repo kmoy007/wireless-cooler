@@ -2,6 +2,8 @@
 //#include "Particle.h"
 
 //#include "Parameter.h"
+
+
 #include "ParticleWiring.h"
 
 
@@ -33,11 +35,14 @@
 #include "string_format.h"
 #include "Cell_Implementation.h" //for watchdog
 //#define BOOST_EXCEPTION_DISABLE 1
+#include "BLE_NVM_Data.h"
 
 //#include "SerialUI.h"
 #define TOKEN "BBFF-ZRKJR6drk5PdBiad4PLgGt88HVjVnr"  // Add here your Ubidots TOKEN
 #define DEVICE_NAME "G350 MODULE"
 #define DEVICE_LABEL "G350module"
+
+int g_Version = 1;
 
 bool ISRELAY = false;
 
@@ -74,11 +79,13 @@ std::shared_ptr<Persistence> persistence;
 std::shared_ptr<Ubidots_Peripheral> ubidots;
 std::shared_ptr<RFM69_Peripheral> rfm69;
 std::shared_ptr<ShortTermMemory_Peripheral> shortTermMemory;
+std::shared_ptr<BLE_Peripheral> ble;
 
 std::vector<std::shared_ptr<IPeripheralDevice>> _theDevices;
 
 
 void setup() {
+    System.enableFeature(FEATURE_RESET_INFO);
     System.enableFeature(FEATURE_RETAINED_MEMORY);
     LEDStatus status;
     status.off(); // Turns the LED off
@@ -89,7 +96,7 @@ void setup() {
     //pinMode(ParticleWiring::pin_D1, INPUT);
     std::shared_ptr<DS18B20_Peripheral> ds18b20;
    // std::shared_ptr<DHT_Peripheral> dht;
-    std::shared_ptr<BLE_Peripheral> ble;
+   // std::shared_ptr<BLE_Peripheral> ble;
     std::shared_ptr<PwrMgmt_Peripheral> pwrmgmt;
     std::shared_ptr<MCP9808_Peripheral> mcp9808;
     
@@ -161,7 +168,6 @@ void setup() {
         (*itr)->Setup();
     }
 
-
     delay(1000);
 
 
@@ -172,10 +178,13 @@ void loop()
     wakeupCounter++;
     wd.checkin();
 
-    _sandb->logMessage(String::format("Wake up #%d, Time %s, watchdogCounter %d", wakeupCounter, Time.timeStr().c_str(), watchdogCounter));
+    int wakeupTime = Time.now();
+
+    _sandb->logMessage(String::format("Wake up #%d, Time %s, watchdogCounter %d", wakeupCounter, Time.format(wakeupTime, TIME_FORMAT_DEFAULT).c_str(), watchdogCounter));
    // _sandb->logMessage(Time.timeStr());
     
-
+    BLE_NVM_Data nvmHandler(_sandb);
+    nvmHandler.PrintNVM(ble);
     for (auto itr = _theDevices.begin(); itr != _theDevices.end(); ++itr)
     {
         for (auto itr2 = (*itr)->m_Parameters.begin(); itr2 != (*itr)->m_Parameters.end(); ++itr2)
@@ -221,6 +230,7 @@ void loop()
         }
    }
 
+
     
     //start push readings to STMemory
     for (std::vector<std::shared_ptr<IPeripheralDevice>>::iterator itr = _theDevices.begin(); itr != _theDevices.end(); ++itr)
@@ -250,13 +260,13 @@ void loop()
 
     std::vector<std::pair<std::string,double>> dataToSend;
 
-        for (auto itr = _theDevices.begin(); itr != _theDevices.end(); ++itr)
+    for (auto itr = _theDevices.begin(); itr != _theDevices.end(); ++itr)
+    {
+        for (auto itr2 = (*itr)->m_SensorValues.begin(); itr2 != (*itr)->m_SensorValues.end(); ++itr2)
         {
-            for (auto itr2 = (*itr)->m_SensorValues.begin(); itr2 != (*itr)->m_SensorValues.end(); ++itr2)
-            {
-                dataToSend.push_back(std::make_pair(itr2->GetName(), /*boost::get<double>*/(itr2->GetCurrentValue())));
-            }
+            dataToSend.push_back(std::make_pair(itr2->GetName(), /*boost::get<double>*/(itr2->GetCurrentValue())));
         }
+    }
 
     ConsoleMenu menu(_sandb, _theDevices, persistence);
     if (ISRELAY)
@@ -314,7 +324,7 @@ void loop()
         _sandb->logMessage("Cell function is disabled - parameter is called cellactivezeroifdisable");
     }
     
-
+    
 
 
     if (!ISRELAY)
@@ -325,7 +335,17 @@ void loop()
             double timeToSleepDouble = /*boost::get<double>*/(ParameterHelpers::GetValueByName<Parameter>("deepsleeptimeseconds", electron->m_Parameters, _sandb));
             
             int timeToSleepInSeconds = static_cast<int>(timeToSleepDouble);
-            _sandb->logMessage(String::format("Going into deep sleep for %ds", timeToSleepInSeconds));
+
+            int nextWakeTime = Time.now() + timeToSleepInSeconds;
+
+            BLE_NVM_Data nvmHandler(_sandb);
+            if (!nvmHandler.UploadNVMData(g_Version, wakeupTime, nextWakeTime, ble))
+            {
+                _sandb->logMessage("FAILED to upload NVM data");
+            }
+           
+
+            _sandb->logMessage(String::format("Going into deep sleep for %ds, next wake at %s", timeToSleepInSeconds, Time.format(nextWakeTime, TIME_FORMAT_DEFAULT).c_str()));
             _sandb->logMessage("---------------------");
             System.sleep(SLEEP_MODE_DEEP, timeToSleepInSeconds);
             //System.sleep(timeToSleepInSeconds);
@@ -336,7 +356,16 @@ void loop()
             double timeToSleepDouble = /*boost::get<double>*/(ParameterHelpers::GetValueByName<Parameter>("lightsleeptimeseconds", electron->m_Parameters, _sandb));
             int timeToSleepInSeconds = static_cast<int>(timeToSleepDouble);
            // int timeToSleepInSeconds = 5;
-            _sandb->logMessage(String::format("Going into light sleep for %ds", timeToSleepInSeconds));
+
+            int nextWakeTime = Time.now() + timeToSleepInSeconds;
+
+            BLE_NVM_Data nvmHandler(_sandb);
+            if (!nvmHandler.UploadNVMData(g_Version, wakeupTime, nextWakeTime, ble))
+            {
+                _sandb->logMessage("FAILED to upload NVM data");
+            }
+
+            _sandb->logMessage(String::format("Going into light sleep for %ds, next wake at %s", timeToSleepInSeconds, Time.format(nextWakeTime, TIME_FORMAT_DEFAULT).c_str()));
             _sandb->logMessage("---------------------");
             System.sleep(ParticleWiring::pin_D1,FALLING,timeToSleepInSeconds);
         }

@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/../src -I/usr/local/include 
+CXX_INCLUDES = -I/usr/local/include -I/Users/kenmoynihan/Particle/wireless-cooler/test_wireless-cooler/../src 
 

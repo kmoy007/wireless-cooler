@@ -10,4 +10,5 @@ APPSOURCES=$(call target_files,$(USRSRC_SLASH),*.cpp)
 APPSOURCES+=$(call target_files,$(USRSRC_SLASH),*.c)
 
 # Custom stuff can be added here
-INCLUDE_DIRS += $(SOURCE_PATH)/../boost_1_66_0
+INCLUDE_DIRS += /usr/local/include
+LDPATH += -L/usr/local/lib

@@ -150,6 +150,87 @@ ShortTermMemoryTest.cpp.s:
 	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/ShortTermMemoryTest.cpp.s
 .PHONY : ShortTermMemoryTest.cpp.s
 
+msmtest.o: msmtest.cpp.o
+
+.PHONY : msmtest.o
+
+# target to build an object file
+msmtest.cpp.o:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.o
+.PHONY : msmtest.cpp.o
+
+msmtest.i: msmtest.cpp.i
+
+.PHONY : msmtest.i
+
+# target to preprocess a source file
+msmtest.cpp.i:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.i
+.PHONY : msmtest.cpp.i
+
+msmtest.s: msmtest.cpp.s
+
+.PHONY : msmtest.s
+
+# target to generate assembly for a file
+msmtest.cpp.s:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/msmtest.cpp.s
+.PHONY : msmtest.cpp.s
+
+serializedemo_simple_test.o: serializedemo_simple_test.cpp.o
+
+.PHONY : serializedemo_simple_test.o
+
+# target to build an object file
+serializedemo_simple_test.cpp.o:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.o
+.PHONY : serializedemo_simple_test.cpp.o
+
+serializedemo_simple_test.i: serializedemo_simple_test.cpp.i
+
+.PHONY : serializedemo_simple_test.i
+
+# target to preprocess a source file
+serializedemo_simple_test.cpp.i:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.i
+.PHONY : serializedemo_simple_test.cpp.i
+
+serializedemo_simple_test.s: serializedemo_simple_test.cpp.s
+
+.PHONY : serializedemo_simple_test.s
+
+# target to generate assembly for a file
+serializedemo_simple_test.cpp.s:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/serializedemo_simple_test.cpp.s
+.PHONY : serializedemo_simple_test.cpp.s
+
+serializedemotest.o: serializedemotest.cpp.o
+
+.PHONY : serializedemotest.o
+
+# target to build an object file
+serializedemotest.cpp.o:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.o
+.PHONY : serializedemotest.cpp.o
+
+serializedemotest.i: serializedemotest.cpp.i
+
+.PHONY : serializedemotest.i
+
+# target to preprocess a source file
+serializedemotest.cpp.i:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.i
+.PHONY : serializedemotest.cpp.i
+
+serializedemotest.s: serializedemotest.cpp.s
+
+.PHONY : serializedemotest.s
+
+# target to generate assembly for a file
+serializedemotest.cpp.s:
+	$(MAKE) -f CMakeFiles/test_wireless-cooler.dir/build.make CMakeFiles/test_wireless-cooler.dir/serializedemotest.cpp.s
+.PHONY : serializedemotest.cpp.s
+
 test_wireless-cooler.o: test_wireless-cooler.cpp.o
 
 .PHONY : test_wireless-cooler.o
@@ -189,6 +270,15 @@ help:
 	@echo "... ShortTermMemoryTest.o"
 	@echo "... ShortTermMemoryTest.i"
 	@echo "... ShortTermMemoryTest.s"
+	@echo "... msmtest.o"
+	@echo "... msmtest.i"
+	@echo "... msmtest.s"
+	@echo "... serializedemo_simple_test.o"
+	@echo "... serializedemo_simple_test.i"
+	@echo "... serializedemo_simple_test.s"
+	@echo "... serializedemotest.o"
+	@echo "... serializedemotest.i"
+	@echo "... serializedemotest.s"
 	@echo "... test_wireless-cooler.o"
 	@echo "... test_wireless-cooler.i"
 	@echo "... test_wireless-cooler.s"

@@ -21,6 +21,8 @@ public:
     double GetLastTimeToConnect_s() { return m_LastTimeToConnect; } 
     bool IsCellEnabled();
 
+    void SetLastCellActionTime();
+
 protected:
     virtual bool doSetup();
     virtual bool doMainLoop();
